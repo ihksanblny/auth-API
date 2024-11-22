@@ -3,7 +3,7 @@ const mongoose = require("mongoose");
 const userSchema = mongoose.Schema(
   {
     email: {
-      typeof: String,
+      type: String,
       required: [true, "Email is required!"],
       trim: true,
       unique: [true, "Email must be unique!"],
@@ -11,7 +11,7 @@ const userSchema = mongoose.Schema(
       lowercase: true,
     },
     password: {
-      typeof: String,
+      type: String,
       required: [true, "Password must be provided!"],
       trim: true,
       select: false,
