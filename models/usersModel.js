@@ -20,6 +20,10 @@ const userSchema = mongoose.Schema(
       type: Boolean,
       default: false,
     },
+    verificationCode: {
+      type: String,
+      select: false,
+    },
     verificationCodeValidation: {
       type: Number,
       select: false,
