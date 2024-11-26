@@ -64,7 +64,10 @@ exports.signin = async (req, res) => {
         email: existingUser.email,
         verified: existingUser.verified,
       },
-      process.env.TOKEN_SECRET
+      process.env.TOKEN_SECRET,
+      {
+        expiresIn: "8h",
+      }
     );
 
     res
