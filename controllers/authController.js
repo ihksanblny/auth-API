@@ -119,14 +119,19 @@ exports.sendVerificationCode = async (req, res) => {
     }
 
     const codeValue = Math.floor(Math.random() * 1000000).toString();
+    console.log("Sending email to:", existingUser.email);
     let info = await transport.sendMail({
       from: process.env.NODE_CODE_SENDING_EMAIL_ADDRESS,
       to: existingUser.email,
       subject: "verification code",
       html: "<h1>" + codeValue + "</h1>",
     });
+    
+    console.log("Mail response:", info);
 
     if (info.accepted[0] === existingUser.email) {
+      console.log("HMAC Secret:", process.env.HMAC_VERIFICATION_CODE_SECRET);
+      console.log("Code Value:", codeValue);
       const hashedCodeValue = hmacProcess(
         codeValue,
         process.env.HMAC_VERIFICATION_CODE_SECRET
@@ -138,7 +143,8 @@ exports.sendVerificationCode = async (req, res) => {
     }
     res.status(400).json({ success: false, message: "Code sent failed!" });
   } catch (error) {
-    console.log(error);
+    console.error("Error details:", error);
+    return res.status(500).json({ success: false, message: error.message });
   }
 };
 
